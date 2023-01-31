@@ -1,14 +1,23 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-
+const customersHistorySchema = new Schema({
+    product: String,
+    date: String,
+    avans: String,
+    overall: String,
+    status: {
+        type: String, enum: ["To'landi", "Chala", "To'lanmadi"]
+    }
+});
 const customersSchema = new Schema({
     firstName: String,
     lastName: String,
     phone: String,
     phone2: String,
     cutomerType: { type: String, enum: ['temporary', 'daily'] },
-    address: String
+    address: String,
+    history: [customersHistorySchema]
 });
 const storageSchema = new Schema({
     productName: String,
@@ -31,10 +40,22 @@ const staffSchema = new Schema({
     salary: String,
     image: String
 });
+const ordersSchema = new Schema({
+    order: String,
+    customer: String,
+    phone: String,
+    date: String,
+    deadline: String,
+    time: String,
+    avans: String,
+    price: String,
+    status: String,
+});
 
 
 module.exports = {
     customersSchema,
     storageSchema,
-    staffSchema
+    staffSchema,
+    ordersSchema
 }

@@ -5,7 +5,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const SharpMulter = require("sharp-multer");
 const app = express();
-const multer = require('multer')
+const multer = require('multer');
+require('dotenv').config()
 mongoose.pluralize(null);
 
 // routes
@@ -27,10 +28,16 @@ const {
     deleteStaff,
     updateStaff
 } = require("./routes/staff");
+const {
+    orders,
+    addOrder,
+    deleteOrder,
+    updateOrder
+} = require("./routes/orders");
 
 
 // PORT
-const port = 4000;
+const port = process.env.PORT;
 // setting Up
 mongoose.set('strictQuery', true);
 const storageForImg = SharpMulter({
@@ -99,6 +106,14 @@ app.route('/staff')
     .post(upload.single('image'), addNewStaff)
     .delete(deleteStaff)
     .put(updateStaff);
+
+// Handle Orders
+
+app.route('/orders')
+    .get(orders)
+    .post(addOrder)
+    .delete(deleteOrder)
+    .put(updateOrder);
 
 app.listen(port, () => {
     console.log(`Listening to port ${port}`);
