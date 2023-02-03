@@ -1,17 +1,17 @@
 "use strict";
 const mongoose = require("mongoose");
 // Schemas
-const { storageSchema } = require("./../schemas/schemas");
+const { expensesSchema } = require("./../schemas/schemas");
 // Model
-const Storage = mongoose.model('storage', storageSchema);
+const Expenses = mongoose.model('expenses', expensesSchema);
 
-exports.storage = (req, res) => {
-    Storage.find({}).then((result) => {
+exports.expenses = (_req, res) => {
+    Expenses.find({}).then((result) => {
         res.send(result);
     });
 };
 exports.addProduct = (req, res) => {
-    const newProduct = new Storage({ ...(req.body), productImage: req.file ? req.file.path : "none" });
+    const newProduct = new Expenses(req.body);
     newProduct.save(function (err, doc) {
         if (err) {
             res.send(err);
@@ -23,13 +23,13 @@ exports.addProduct = (req, res) => {
 };
 
 exports.deleteProduct = (req, res) => {
-    Storage.deleteOne({ _id: req.body.id }, (err) => {
+    Expenses.deleteOne({ _id: req.body.id }, (err) => {
         if (err) return handleError(err);
         res.send("success!");
     });
 }
 exports.updateProduct = (req, res) => {
-    Storage.findOneAndUpdate(req.body.id, req.body.new, {
+    Expenses.findOneAndUpdate(req.body.id, req.body.new, {
         new: true
     }).then((doc) => {
         res.send(doc);

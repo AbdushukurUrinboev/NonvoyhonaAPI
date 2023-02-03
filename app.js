@@ -34,6 +34,19 @@ const {
     deleteOrder,
     updateOrder
 } = require("./routes/orders");
+const {
+    goods,
+    updateGood,
+    deleteGood,
+    addGood
+} = require("./routes/products");
+const {
+    tasks,
+    addTask,
+    deleteTask,
+    updateTask
+} = require("./routes/daily-task");
+const { onSail, addSail, deleteSail, updateSail } = require("./routes/on-sail");
 
 
 // PORT
@@ -44,6 +57,8 @@ const storageForImg = SharpMulter({
     destination: (req, file, cb) => {
         if (req.route.path === "/staff") {
             cb(null, "./uploads/staffImage");
+        } else if (req.route.path === "/storage") {
+            cb(null, "./uploads/storage");
         } else {
             cb(null, "./uploads/productImage");
         }
@@ -63,7 +78,6 @@ app.use(
         extended: true,
     })
 );
-
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header(
@@ -96,7 +110,7 @@ app.route('/customers')
 // Handle Storage
 app.route('/storage')
     .get(storage)
-    .post(upload.single('productImage'), addProduct)
+    .post(upload.single('storageImage'), addProduct)
     .delete(deleteProduct)
     .put(updateProduct);
 
@@ -114,6 +128,30 @@ app.route('/orders')
     .post(addOrder)
     .delete(deleteOrder)
     .put(updateOrder);
+
+// Handle Calculation
+
+app.route('/calculation')
+    .get(goods)
+    .post(upload.single('ProductImage'), addGood)
+    .delete(deleteGood)
+    .put(updateGood);
+
+// Handle Calculation
+
+app.route('/daily-tasks')
+    .get(tasks)
+    .post(addTask)
+    .delete(deleteTask)
+    .put(updateTask);
+
+
+// Handle Sotuv
+
+app.route('/sale')
+    .get(onSail)
+    .delete(deleteSail)
+    .put(updateSail);
 
 app.listen(port, () => {
     console.log(`Listening to port ${port}`);

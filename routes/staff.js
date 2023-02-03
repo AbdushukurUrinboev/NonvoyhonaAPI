@@ -14,9 +14,17 @@ exports.staff = (req, res) => {
         res.send(result);
     });
 };
+
+exports.updateStaffHistory = async (nameOfTheEmployee, addingObj) => {
+    // given name must be spaced between firstName and lastName
+    const foundEmployee = await Staff.findOne({ firstName: nameOfTheEmployee.split(" ")[0], lastName: nameOfTheEmployee.split(" ")[1] });
+    foundEmployee.workHistory = [...(foundEmployee.workHistory), addingObj];
+    return await foundEmployee.save();
+}
+
 exports.addNewStaff = async (req, res) => {
-    const newProduct = new Staff({ ...(req.body), image: req.file.path });
-    newProduct.save(function (err, doc) {
+    const newStaff = new Staff({ ...(req.body), image: req.file.path });
+    newStaff.save(function (err, doc) {
         if (err) {
             res.send(handleError(err))
         } else {

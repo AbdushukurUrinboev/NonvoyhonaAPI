@@ -14,7 +14,7 @@ exports.addCustomers = (req, res) => {
     const newCustomer = new Customers(req.body);
     newCustomer.save(function (err, doc) {
         if (err) {
-            res.send(handleError(err))
+            res.send(res.send(err))
         } else {
             res.send("success!")
         };
