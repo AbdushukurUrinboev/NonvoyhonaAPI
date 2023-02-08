@@ -9,28 +9,35 @@ const bonusBreadSchema = new Schema({
 })
 const customersHistorySchema = new Schema({
     product: String,
+    productQuantity: Number,
     date: String,
-    avans: String,
-    overall: String,
+    avans: Number,
+    overall: Number,
     status: {
         type: String, enum: ["To'landi", "Chala", "To'lanmadi"]
     }
 });
+
+const salarySchema = new Schema({
+    date: String,
+    paid: Number,
+});
+
 const customersSchema = new Schema({
     firstName: String,
     lastName: String,
     phone: String,
     phone2: String,
     status: String,
-    cutomerType: { type: String, enum: ['temporary', 'daily'] },
+    customerType: { type: String, enum: ['temporary', 'daily'] },
     address: String,
     history: [customersHistorySchema]
 });
 const storageSchema = new Schema({
     productName: String,
     description: String,
-    productPrice: String,
-    poductQuantity: String,
+    productPrice: Number,
+    poductQuantity: Number,
     olinganSana: String,
     olinganSoat: String,
     xamkor: String,
@@ -45,35 +52,34 @@ const workHistorySchema = new Schema({
     nonSoni: Number,
     bonus: [bonusBreadSchema],
     jastaNonSoni: Number,
-    tulov: String,
-    bonusTulov: String,
-    jamiTulov: String,
+    tulov: Number
 });
 
 const staffSchema = new Schema({
     firstName: String,
     lastName: String,
     gender: String,
-    birthday: String,
     phone: String,
     phone2: String,
     typeOfWorker: String,
     adress: String,
     group: String,
     smena: String,
-    salary: String,
+    salary: Number,
+    additionalSalary: { type: Number, default: 0 },
     image: String,
-    workHistory: [workHistorySchema]
+    workHistory: [workHistorySchema],
+    AllsalaryHistory: [salarySchema]
 });
 const ordersSchema = new Schema({
     order: String,
     customer: String,
-    phone: String,
+    productQuantity: Number,
     date: String,
     deadline: String,
     time: String,
-    avans: String,
-    price: String,
+    avans: Number,
+    price: Number,
     status: String,
 });
 
@@ -87,9 +93,31 @@ const productsRequiredSchema = new Schema({
     itemQuantity: Number
 });
 
+const nasiyaSchema = new Schema({
+    product: String,
+    customer: String,
+    productQuantity: Number,
+    overall: Number,
+    date: String,
+    avans: Number,
+    customerType: { type: String, enum: ['temporary', 'daily'] },
+    productID: String,
+    userId: String,
+    timeStamp: String
+});
+
+const daromatSchema = new Schema({
+    name: String,
+    quantity: Number,
+    overallPrice: Number,
+    day: Number,
+    month: Number,
+    year: Number,
+    timeStamp: Number
+});
+
 const productsSchema = new Schema({
     productName: String,
-    productDes: String,
     birQopUchunTulov: Number,
     productPrice: Number,
     productImage: String,
@@ -100,8 +128,6 @@ const productsSchema = new Schema({
     }
 });
 
-
-
 const dailyTasksSchema = new Schema({
     group: String,
     smena: String,
@@ -111,22 +137,24 @@ const dailyTasksSchema = new Schema({
     nonSoni: Number,
     bonus: [bonusBreadSchema],
     jastaNonSoni: Number,
-    tulov: String,
-    bonusTulov: String,
-    jamiTulov: String
+    tulov: Number,
+    bonusTulov: Number,
+    jamiTulov: Number,
+    date: String,
 });
 const expensesSchema = new Schema({
     name: String,
-    quantity: String,
+    quantity: Number,
     customer: String,
-    givenProductQuantity: Number,
-    avans: String,
-    all: Number,
-    productImage: String
+    overallPrice: Number,
+    day: Number,
+    month: Number,
+    year: Number,
+    timeStamp: Number
 });
 const onSailSchema = new Schema({
     breadName: String,
-    quantity: String,
+    quantity: Number,
 });
 
 
@@ -138,5 +166,7 @@ module.exports = {
     productsSchema,
     dailyTasksSchema,
     expensesSchema,
-    onSailSchema
+    onSailSchema,
+    nasiyaSchema,
+    daromatSchema
 }

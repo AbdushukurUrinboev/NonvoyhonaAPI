@@ -11,6 +11,7 @@ exports.goods = (req, res) => {
     });
 };
 exports.addGood = (req, res) => {
+    console.log(req.body);
     const newProduct = new Products({ ...(req.body), productImage: req.file ? req.file.path : "none" });
     newProduct.save(function (err, doc) {
         if (err) {
@@ -22,11 +23,14 @@ exports.addGood = (req, res) => {
     });
 };
 
-exports.deleteGood = (req, res) => {
-    Products.deleteOne({ _id: req.body.id }, (err) => {
-        if (err) return handleError(err);
-        res.send("success!");
-    });
+exports.deleteGood = async (req, res) => {
+    const deletingItem = await Products.findOne({ _id: req.body.id });
+    if (deletingItem.productImage != "none") {
+        fs.unlink(deletingItem.productImage, (err) => err);
+    }
+    const result = await deletingItem.remove()
+    res.send(result);
+
 }
 
 exports.updateGood = (req, res) => {

@@ -14,7 +14,9 @@ const {
     customers: getCustomersRoute,
     addCustomers: postCustomersRoute,
     deleteCustomer: deleteCustomerRoute,
-    updateCustomer: updateCustomerRoute
+    updateCustomer: updateCustomerRoute,
+    getSpecificCustomer,
+    getTypeOfCustomers
 } = require("./routes/customers");
 const {
     storage,
@@ -26,7 +28,9 @@ const {
     staff,
     addNewStaff,
     deleteStaff,
-    updateStaff
+    updateStaff,
+    specificStaff,
+    addSalary
 } = require("./routes/staff");
 const {
     orders,
@@ -46,7 +50,34 @@ const {
     deleteTask,
     updateTask
 } = require("./routes/daily-task");
-const { onSail, addSail, deleteSail, updateSail } = require("./routes/on-sail");
+const {
+    onSail,
+    sellToCustomer,
+    deleteSail,
+    updateSail
+} = require("./routes/on-sale");
+const {
+    nasiya,
+    addNasiya,
+    updateNasiya,
+    deleteNasiya,
+    reportNasiya
+} = require("./routes/nasiya");
+const {
+    expenses,
+    addExpense,
+    updateExpense,
+    deleteExpense,
+    reportExpenses
+} = require("./routes/expenses");
+const {
+    daromat,
+    reportDaromat,
+    deleteDaromat,
+    updateDaromat,
+    reportDaromatPerProduct
+} = require("./routes/daromat")
+
 
 
 // PORT
@@ -107,6 +138,9 @@ app.route('/customers')
     .delete(deleteCustomerRoute)
     .put(updateCustomerRoute);
 
+app.get('/customer/:id', getSpecificCustomer)
+app.get('/customers/:type', getTypeOfCustomers)
+
 // Handle Storage
 app.route('/storage')
     .get(storage)
@@ -120,6 +154,10 @@ app.route('/staff')
     .post(upload.single('image'), addNewStaff)
     .delete(deleteStaff)
     .put(updateStaff);
+
+app.route('/staff/:id')
+    .get(specificStaff)
+    .post(addSalary)
 
 // Handle Orders
 
@@ -140,18 +178,44 @@ app.route('/calculation')
 // Handle Calculation
 
 app.route('/daily-tasks')
-    .get(tasks)
     .post(addTask)
-    .delete(deleteTask)
-    .put(updateTask);
-
 
 // Handle Sotuv
 
 app.route('/sale')
     .get(onSail)
+    .post(sellToCustomer) // this is where the object in either sales or orders gets removed
     .delete(deleteSail)
     .put(updateSail);
+
+// Handle Nasiya
+
+app.route('/nasiya')
+    .get(nasiya)
+    .post(addNasiya)
+    .delete(deleteNasiya)
+    .put(updateNasiya);
+
+// Handle Expenses
+
+app.route('/expenses')
+    .get(expenses)
+    .post(addExpense)
+    .delete(deleteExpense)
+    .put(updateExpense);
+
+app.route('/daromat')
+    .get(daromat)
+    .delete(deleteDaromat)
+    .put(updateDaromat);
+
+
+// HomePageReport
+app.get('/report/expenses', reportExpenses);
+app.get('/report/nasiya', reportNasiya);
+app.get('/report/daromat', reportDaromat);
+app.get('/report/daromat/:productName', reportDaromatPerProduct);
+
 
 app.listen(port, () => {
     console.log(`Listening to port ${port}`);
