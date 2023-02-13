@@ -34,7 +34,7 @@ exports.deleteGood = async (req, res) => {
 }
 
 exports.updateGood = (req, res) => {
-    Products.findOneAndUpdate(req.body.id, req.body.new, {
+    Products.findOneAndUpdate({ _id: req.body.id }, req.body.new, {
         new: true
     }).then((doc) => {
         res.send(doc);

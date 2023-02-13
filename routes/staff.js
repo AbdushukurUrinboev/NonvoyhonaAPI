@@ -70,7 +70,7 @@ exports.deleteStaff = async (req, res) => {
 
 }
 exports.updateStaff = (req, res) => {
-    Staff.findOneAndUpdate(req.body.id, req.body.new, {
+    Staff.findOneAndUpdate({ _id: req.body.id }, req.body.new, {
         new: true
     }).then((doc) => {
         res.send(doc);

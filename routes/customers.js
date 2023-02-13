@@ -50,7 +50,7 @@ exports.deleteCustomer = (req, res) => {
     });
 }
 exports.updateCustomer = (req, res) => {
-    Customers.findOneAndUpdate(req.body.id, req.body.new, {
+    Customers.findOneAndUpdate({ _id: req.body.id }, req.body.new, {
         new: true
     }).then((doc) => {
         res.send(doc);

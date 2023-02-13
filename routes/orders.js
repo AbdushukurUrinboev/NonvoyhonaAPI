@@ -37,7 +37,7 @@ exports.deleteOrder = (req, res) => {
     });
 }
 exports.updateOrder = (req, res) => {
-    Orders.findOneAndUpdate(req.body.id, req.body.new, {
+    Orders.findOneAndUpdate({ _id: req.body.id }, req.body.new, {
         new: true
     }).then((doc) => {
         res.send(doc);
