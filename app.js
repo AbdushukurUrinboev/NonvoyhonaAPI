@@ -76,7 +76,19 @@ const {
     deleteDaromat,
     updateDaromat,
     reportDaromatPerProduct
-} = require("./routes/daromat")
+} = require("./routes/daromat");
+const {
+    xamkor,
+    addXamkor,
+    updateXamkor,
+    deleteXamkor
+} = require("./routes/xamkor");
+const {
+    plans,
+    addPlan,
+    deletePlan,
+    updatePlan
+} = require("./routes/plans");
 
 
 
@@ -168,6 +180,26 @@ app.route('/orders')
     .put(updateOrder);
 
 // Handle Calculation
+
+app.route('/calculation')
+    .get(goods)
+    .post(upload.single('ProductImage'), addGood)
+    .delete(deleteGood)
+    .put(updateGood);
+
+// Handle xamkor
+
+app.route('/xamkor')
+    .get(xamkor)
+    .post(addXamkor)
+    .delete(deleteXamkor)
+    .put(updateXamkor);
+
+app.route('/plans')
+    .get(plans)
+    .post(addPlan)
+    .delete(deletePlan)
+    .put(updatePlan);
 
 app.route('/calculation')
     .get(goods)

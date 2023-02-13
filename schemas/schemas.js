@@ -20,7 +20,7 @@ const customersHistorySchema = new Schema({
 
 const salarySchema = new Schema({
     date: String,
-    paid: Number,
+    paid: Number
 });
 
 const customersSchema = new Schema({
@@ -41,7 +41,6 @@ const storageSchema = new Schema({
     olinganSana: String,
     olinganSoat: String,
     xamkor: String,
-    xamkorTel: String,
     storageImage: String
 });
 
@@ -80,7 +79,7 @@ const ordersSchema = new Schema({
     time: String,
     avans: Number,
     price: Number,
-    status: String,
+    status: String
 });
 
 const productExpensesSchema = new Schema({
@@ -140,7 +139,7 @@ const dailyTasksSchema = new Schema({
     tulov: Number,
     bonusTulov: Number,
     jamiTulov: Number,
-    date: String,
+    date: String
 });
 const expensesSchema = new Schema({
     name: String,
@@ -152,9 +151,20 @@ const expensesSchema = new Schema({
     year: Number,
     timeStamp: Number
 });
+const xamkorSchema = new Schema({
+    name: String,
+    phone: String,
+    category: String
+});
 const onSailSchema = new Schema({
     breadName: String,
-    quantity: Number,
+    quantity: Number
+});
+const plansSchema = new Schema({
+    plan: String,
+    deadline: String,
+    person: String,
+    status: String
 });
 
 
@@ -168,5 +178,7 @@ module.exports = {
     expensesSchema,
     onSailSchema,
     nasiyaSchema,
-    daromatSchema
+    daromatSchema,
+    xamkorSchema,
+    plansSchema
 }
