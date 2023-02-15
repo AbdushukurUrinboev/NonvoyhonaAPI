@@ -151,7 +151,7 @@ app.route('/customers')
     .put(updateCustomerRoute);
 
 app.get('/customer/:id', getSpecificCustomer)
-app.get('/customers/:type', getTypeOfCustomers)
+app.get('/customers/:type', getTypeOfCustomers)  ///// customertype
 
 // Handle Storage
 app.route('/storage')
