@@ -201,12 +201,6 @@ app.route('/plans')
     .delete(deletePlan)
     .put(updatePlan);
 
-app.route('/calculation')
-    .get(goods)
-    .post(upload.single('ProductImage'), addGood)
-    .delete(deleteGood)
-    .put(updateGood);
-
 // Handle Calculation
 
 app.route('/daily-tasks')

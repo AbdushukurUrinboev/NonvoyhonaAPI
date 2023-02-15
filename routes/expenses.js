@@ -58,7 +58,8 @@ exports.addExpense = async (req, res) => {
     let month = serverDate.getMonth() + 1;
     let year = serverDate.getFullYear();
 
-    await deletePrevMonths();
+    await deletePrevMonths(month, year);
+
     const timeStamp = Date.now()
     const newProduct = new Expenses({ ...(req.body), timeStamp, day, month, year });
     res.send(await newProduct.save());
