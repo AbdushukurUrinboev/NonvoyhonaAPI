@@ -6,7 +6,7 @@ const { plansSchema } = require("./../schemas/schemas");
 const Plans = mongoose.model('plans', plansSchema);
 
 exports.plans = (_req, res) => {
-    Xamkor.find({}).then((result) => {
+    Plans.find({}).then((result) => {
         res.send(result);
     });
 };
