@@ -168,6 +168,7 @@ const plansSchema = new Schema({
     status: String
 });
 
+// all exports here
 
 module.exports = {
     customersSchema,
