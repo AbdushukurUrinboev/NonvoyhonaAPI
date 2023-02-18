@@ -155,7 +155,12 @@ const expensesSchema = new Schema({
 const xamkorSchema = new Schema({
     name: String,
     phone: String,
-    category: String
+    phone2: String,
+    category: String,
+    address: String,
+    workPlace: String,
+    position: String
+
 });
 const onSailSchema = new Schema({
     breadName: String,
@@ -168,6 +173,7 @@ const plansSchema = new Schema({
     status: String
 });
 
+// all exports here
 
 module.exports = {
     customersSchema,
