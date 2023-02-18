@@ -183,7 +183,7 @@ app.route('/orders')
 
 app.route('/calculation')
     .get(goods)
-    .post(upload.single('ProductImage'), addGood)
+    .post(upload.single('productImage'), addGood)
     .delete(deleteGood)
     .put(updateGood);
 
