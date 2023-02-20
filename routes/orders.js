@@ -26,8 +26,8 @@ exports.addOrder = (req, res) => {
     });
 };
 
-exports.deleteOrderFromSale = async (date, customer) => {
-    const result = await Orders.deleteOne({ date, customer });
+exports.deleteOrderFromSale = async (customer) => {
+    const result = await Orders.deleteOne({ customer });
     return result;
 }
 exports.deleteOrder = (req, res) => {

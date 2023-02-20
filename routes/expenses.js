@@ -32,7 +32,7 @@ exports.addFromStorage = async (object) => {
     month = parseInt(month);
     year = parseInt(year);
     // altered To Expense Schema
-    const toExpensesSchema = { name: object.productName, quantity: object.poductQuantity, customer: object.xamkor, overallPrice: object.productPrice * object.poductQuantity, day, month, year, timeStamp: object.currTimeStamp }
+    const toExpensesSchema = { name: object.productName, quantity: object.poductQuantity, customer: object.xamkor, overallPrice: object.umumiyNarhi, day, month, year, timeStamp: object.currTimeStamp }
     const newExpense = new Expenses(toExpensesSchema);
     // deletes from last 4 months
     await deletePrevMonths(month, year);
@@ -74,6 +74,8 @@ const getLastWeek = async () => {
 }
 // 12/4/2021
 exports.reportExpenses = async (req, res) => {
+    // const { month, day } = req.query;
+
     const lastWeekDT = await getLastWeek();
     res.send(lastWeekDT);
 }
