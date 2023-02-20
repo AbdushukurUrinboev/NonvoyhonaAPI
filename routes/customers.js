@@ -37,12 +37,6 @@ exports.addCustomers = (req, res) => {
     });
 };
 
-exports.createCustomerManually = async (obj) => {
-    const newCusomterObject = { firstName: obj.customer.split(" ")[0], lastName: obj.customer.split(" ")[1], customerType: "temporary" }
-    const outcome = await Customers.create(newCusomterObject);
-    return outcome;
-}
-
 exports.deleteCustomer = (req, res) => {
     Customers.deleteOne({ _id: req.body.id }, (err) => {
         if (err) return handleError(err);

@@ -2,7 +2,6 @@
 const mongoose = require("mongoose");
 // Schemas
 const { deleteOrderFromSale } = require("./orders");
-const { createCustomerManually } = require("./customers");
 const { onSailSchema } = require("../schemas/schemas");
 const { addNasiyaManually } = require("./nasiya");
 const { addFromSale } = require("./daromat")
@@ -49,28 +48,36 @@ exports.sellToCustomer = async (req, res) => {
     // add to customer history
     // given name must be spaced between firstName and lastName
     let doc = await Customers.findOne({ firstName: req.body.customer.split(" ")[0], lastName: req.body.customer.split(" ")[1] });
-    if (!doc) {
-        doc = await createCustomerManually(req.body)
+    if (doc) {
+        const newOrderForCustomer = {
+            product: req.body.order,
+            productQuantity: req.body.productQuantity,
+            date: modifiedDate,
+            avans: req.body.avans,
+            overall: req.body.price,
+            status: req.body.avans === 0 ? "To'lanmadi" : req.body.avans === req.body.price ? "To'landi" : "Chala"
+        }
+        doc.history = [...(doc.history), newOrderForCustomer];
+
     }
 
-    const newOrderForCustomer = {
-        product: req.body.order,
-        productQuantity: req.body.productQuantity,
-        date: modifiedDate,
-        avans: req.body.avans,
-        overall: req.body.price,
-        status: req.body.avans === 0 ? "To'lanmadi" : req.body.avans === req.body.price ? "To'landi" : "Chala"
-    }
-    doc.history = [...(doc.history), newOrderForCustomer];
-    const resultttt = await doc.save();
-    if (newOrderForCustomer.status === "To'lanmadi" || newOrderForCustomer.status === "Chala") {
-        const nasiyaScheme = { ...newOrderForCustomer, customerType: req.body.customerType != "zakaz" ? req.body.customerType : "temporary", productID: resultttt.history[resultttt.history.length - 1]._id, userId: doc._id }
-        await addNasiyaManually(nasiyaScheme);
+
+    if (doc) {
+        const resultttt = await doc.save();
+        if (newOrderForCustomer.status === "To'lanmadi" || newOrderForCustomer.status === "Chala") {
+            const nasiyaScheme = { ...newOrderForCustomer, customerType: req.body.customerType != "zakaz" ? req.body.customerType : "temporary", productID: resultttt.history[resultttt.history.length - 1]._id, userId: doc._id }
+            await addNasiyaManually(nasiyaScheme);
+        }
+    } else {
+        if (req.body.avans === 0 || req.body.avans < req.body.price) {
+            const nasiyaScheme = { product: req.body.order, productQuantity: req.body.productQuantity, date: modifiedDate, avans: req.body.avans, overall: req.body.price }
+            await addNasiyaManually(nasiyaScheme);
+        }
     }
 
     // handle remove from orders collec or onSale
     if (req.body.customerType === "zakaz") {
-        await deleteOrderFromSale(modifiedDate, req.body.customer);
+        await deleteOrderFromSale(req.body.customer);
     }
     await subtrackFromSale({ name: req.body.order, quantity: req.body.productQuantity });
 
