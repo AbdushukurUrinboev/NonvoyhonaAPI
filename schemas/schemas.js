@@ -38,6 +38,7 @@ const storageSchema = new Schema({
     description: String,
     productPrice: Number,
     poductQuantity: Number,
+    umumiyNarhi: Number,
     olinganSana: String,
     berilganAvans: String,
     olinganSoat: String,
