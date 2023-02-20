@@ -64,6 +64,7 @@ const staffSchema = new Schema({
     typeOfWorker: String,
     adress: String,
     group: String,
+    birthday: String,
     smena: String,
     salary: Number,
     additionalSalary: { type: Number, default: 0 },
