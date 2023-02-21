@@ -2,8 +2,11 @@
 const mongoose = require("mongoose");
 // Schemas
 const { expensesSchema } = require("./../schemas/schemas");
+const { getDatesInRange } = require("./../custom/functions");
 // Model
 const Expenses = mongoose.model('expenses', expensesSchema);
+
+
 
 exports.expenses = (_req, res) => {
     Expenses.find({}).then((result) => {
@@ -65,6 +68,19 @@ exports.addExpense = async (req, res) => {
     res.send(await newProduct.save());
 };
 
+const reportWithGivenDate = async (startDate, endDate) => {
+    // day MUST be given as two digit number!!
+    let [startYear, startMonth, startDay] = startDate.split("-").map(Number);
+    let [endYear, endMonth, endDay] = endDate.split("-").map(Number);
+
+    const outcome = await Expenses.find({
+        month: { $lte: endMonth, $gte: startMonth },
+        year: endYear
+    });
+    let testres = getDatesInRange(startDate, endDate, outcome);
+    return testres
+}
+
 const getLastWeek = async () => {
     const CurrenttimeStamp = Date.now();
     const lastWeek = CurrenttimeStamp - 10080000
@@ -74,11 +90,20 @@ const getLastWeek = async () => {
 }
 // 12/4/2021
 exports.reportExpenses = async (req, res) => {
-    // const { month, day } = req.query;
+    const { startDate, endDate } = req.query; // dates '2022-02-01'
+    if (!startDate) {
+        const lastWeekDT = await getLastWeek();
+        res.send(lastWeekDT);
+    } else {
+        const output = await reportWithGivenDate(startDate, endDate);
+        res.send(output);
+    }
 
-    const lastWeekDT = await getLastWeek();
-    res.send(lastWeekDT);
 }
+
+
+
+
 
 exports.deleteExpense = (req, res) => {
     Expenses.deleteOne({ _id: req.body.id }, (err) => {
