@@ -49,7 +49,7 @@ exports.addSalary = async (req, res) => {
 }
 
 exports.addNewStaff = async (req, res) => {
-    const newStaff = new Staff({ ...(req.body), image: req.file.path });
+    const newStaff = new Staff({ ...(req.body), image: req.file ? req.file.path : "none" });
     newStaff.save(function (err, doc) {
         if (err) {
             res.send(err)
