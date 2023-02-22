@@ -20,15 +20,9 @@ exports.getSpecificCustomer = (req, res) => {
 
 exports.getTypeOfCustomers = (req, res) => {
     const customerType = req.params.type;
-    if (customerType !== "zakaz") {
-        Customers.find({ customerType }).then((result) => {
-            res.send(result);
-        });
-    } else {
-        Customers.find({ customerType }).then((result) => {
-            res.send(result);
-        });
-    }
+    Customers.find({ customerType }).then((result) => {
+        res.send(result);
+    });
 }
 
 exports.addCustomers = (req, res) => {
