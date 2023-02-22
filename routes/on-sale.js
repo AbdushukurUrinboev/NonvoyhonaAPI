@@ -95,7 +95,7 @@ exports.sellToCustomer = async (req, res) => {
 
 exports.deleteSail = (req, res) => {
     OnSail.deleteOne({ _id: req.body.id }, (err) => {
-        if (err) return handleError(err);
+        if (err) return err;
         res.send("success!");
     });
 }

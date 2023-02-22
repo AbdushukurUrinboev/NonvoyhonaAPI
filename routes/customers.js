@@ -39,7 +39,7 @@ exports.addCustomers = (req, res) => {
 
 exports.deleteCustomer = (req, res) => {
     Customers.deleteOne({ _id: req.body.id }, (err) => {
-        if (err) return handleError(err);
+        if (err) return err;
         res.send("success!");
     });
 }

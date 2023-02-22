@@ -32,7 +32,7 @@ exports.deleteOrderFromSale = async (customer) => {
 }
 exports.deleteOrder = (req, res) => {
     Orders.deleteOne({ _id: req.body.id }, (err) => {
-        if (err) return handleError(err);
+        if (err) return err;
         res.send("success!");
     });
 }

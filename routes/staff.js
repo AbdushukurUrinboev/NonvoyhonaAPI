@@ -52,7 +52,7 @@ exports.addNewStaff = async (req, res) => {
     const newStaff = new Staff({ ...(req.body), image: req.file.path });
     newStaff.save(function (err, doc) {
         if (err) {
-            res.send(handleError(err))
+            res.send(err)
         } else {
             res.send("success!")
         };
