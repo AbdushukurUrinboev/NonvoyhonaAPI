@@ -155,7 +155,8 @@ const expensesSchema = new Schema({
     timeStamp: Number
 });
 const xamkorSchema = new Schema({
-    name: String,
+    firstName: String,
+    lastName: String,
     phone: String,
     phone2: String,
     category: String,

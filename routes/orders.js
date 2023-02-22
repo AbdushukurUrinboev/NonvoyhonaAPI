@@ -26,13 +26,13 @@ exports.addOrder = (req, res) => {
     });
 };
 
-exports.deleteOrderFromSale = async (customer) => {
-    const result = await Orders.deleteOne({ customer });
+exports.deleteOrderFromSale = async (id) => {
+    const result = await Orders.deleteOne({ _id: id });
     return result;
 }
 exports.deleteOrder = (req, res) => {
     Orders.deleteOne({ _id: req.body.id }, (err) => {
-        if (err) return handleError(err);
+        if (err) return err;
         res.send("success!");
     });
 }

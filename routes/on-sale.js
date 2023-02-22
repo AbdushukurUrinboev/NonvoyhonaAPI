@@ -77,7 +77,7 @@ exports.sellToCustomer = async (req, res) => {
 
     // handle remove from orders collec or onSale
     if (req.body.customerType === "zakaz") {
-        await deleteOrderFromSale(req.body.customer);
+        await deleteOrderFromSale(req.body.customerID);
     }
     await subtrackFromSale({ name: req.body.order, quantity: req.body.productQuantity });
 
@@ -95,7 +95,7 @@ exports.sellToCustomer = async (req, res) => {
 
 exports.deleteSail = (req, res) => {
     OnSail.deleteOne({ _id: req.body.id }, (err) => {
-        if (err) return handleError(err);
+        if (err) return err;
         res.send("success!");
     });
 }
