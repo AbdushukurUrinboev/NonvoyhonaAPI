@@ -79,6 +79,7 @@ const ordersSchema = new Schema({
     date: String,
     deadline: String,
     time: String,
+    phone: String,
     avans: Number,
     price: Number,
     status: String
