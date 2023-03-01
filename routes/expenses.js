@@ -102,9 +102,6 @@ exports.reportExpenses = async (req, res) => {
 }
 
 
-
-
-
 exports.deleteExpense = (req, res) => {
     Expenses.deleteOne({ _id: req.body.id }, (err) => {
         if (err) res.send(err);
