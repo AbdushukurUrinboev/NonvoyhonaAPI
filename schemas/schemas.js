@@ -29,6 +29,7 @@ const customersSchema = new Schema({
     phone: String,
     phone2: String,
     status: String,
+    workPlace: String,
     customerType: { type: String, enum: ['temporary', 'daily'] },
     address: String,
     history: [customersHistorySchema]
@@ -80,6 +81,7 @@ const ordersSchema = new Schema({
     date: String,
     deadline: String,
     time: String,
+    phone: String,
     avans: Number,
     price: Number,
     status: String

@@ -22,7 +22,8 @@ const {
     storage,
     addProduct,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    getSpecificStorage
 } = require("./routes/storage");
 const {
     staff,
@@ -159,6 +160,9 @@ app.route('/storage')
     .post(upload.single('storageImage'), addProduct)
     .delete(deleteProduct)
     .put(updateProduct);
+
+
+app.get('/storage/:id', getSpecificStorage);
 
 // Handle Staff
 app.route('/staff')

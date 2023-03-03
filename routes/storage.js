@@ -13,6 +13,12 @@ exports.storage = (_req, res) => {
     });
 };
 
+exports.getSpecificStorage = (req, res) => {
+    Storage.findOne({ _id: req.params.id }).then((result) => {
+        res.send(result);
+    });
+}
+
 exports.addProduct = async (req, res) => {
     const serverDate = new Date();
     const modifiedDate = `${serverDate.getDate()}/${serverDate.getMonth() + 1}/${serverDate.getFullYear()}`;
