@@ -66,7 +66,8 @@ exports.deleteProduct = async (req, res) => {
 
 }
 exports.updateProduct = (req, res) => {
-    Storage.findOneAndUpdate({ _id: req.body.id }, req.body.new, {
+    console.log(req.body);
+    Storage.findOneAndUpdate({ _id: req.body.changingID }, req.body, {
         new: true
     }).then((doc) => {
         res.send(doc);

@@ -159,7 +159,7 @@ app.route('/storage')
     .get(storage)
     .post(upload.single('storageImage'), addProduct)
     .delete(deleteProduct)
-    .put(updateProduct);
+    .put(upload.single('storageImage'), updateProduct);
 
 
 app.get('/storage/:id', getSpecificStorage);
