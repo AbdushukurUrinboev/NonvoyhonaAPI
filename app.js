@@ -152,14 +152,14 @@ app.route('/customers')
     .put(updateCustomerRoute);
 
 app.get('/customer/:id', getSpecificCustomer)
-app.get('/customers/:type', getTypeOfCustomers)
+app.get('/customers/:type', getTypeOfCustomers)  ///// customertype
 
 // Handle Storage
 app.route('/storage')
     .get(storage)
     .post(upload.single('storageImage'), addProduct)
     .delete(deleteProduct)
-    .put(updateProduct);
+    .put(upload.single('storageImage'), updateProduct);
 
 
 app.get('/storage/:id', getSpecificStorage);
