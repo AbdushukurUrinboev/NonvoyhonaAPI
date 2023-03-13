@@ -11,6 +11,12 @@ exports.xamkor = (_req, res) => {
     });
 };
 
+exports.oneXamkor = (req, res) => {
+    Xamkor.findOne({ _id: req.params.id }).then((result) => {
+        res.send(result);
+    });
+};
+
 exports.addXamkor = (req, res) => {
     const newOrder = new Xamkor(req.body);
     newOrder.save((err, newOrderDoc) => {
