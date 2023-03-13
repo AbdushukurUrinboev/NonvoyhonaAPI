@@ -12,6 +12,12 @@ exports.nasiya = (_req, res) => {
     });
 };
 
+exports.oneNasiya = (req, res) => {
+    Nasiya.findOne({ _id: req.params.id }).then((result) => {
+        res.send(result);
+    });
+};
+
 exports.addNasiyaManually = async (newObj) => {
     const timeStamp = Date.now()
     const newNasiya = new Nasiya({ ...newObj, timeStamp });

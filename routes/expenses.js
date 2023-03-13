@@ -14,6 +14,12 @@ exports.expenses = (_req, res) => {
     });
 };
 
+exports.getIndividualExpense = (req, res) => {
+    Expenses.findOne({ _id: req.params.id }).then((result) => {
+        res.send(result);
+    });
+};
+
 const deletePrevMonths = async (givenMonth, givenYear) => {
     await Expenses.deleteMany({
         year: { $lt: givenYear }

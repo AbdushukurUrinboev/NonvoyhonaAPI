@@ -11,6 +11,12 @@ exports.goods = (req, res) => {
         res.send(result);
     });
 };
+
+exports.oneGood = (req, res) => {
+    Products.findOne({ _id: req.params.id }).then((result) => {
+        res.send(result);
+    });
+};
 exports.addGood = (req, res) => {
     console.log(req.body);
     const newProduct = new Products({ ...(req.body), productImage: req.file ? req.file.path : "none" });

@@ -37,13 +37,15 @@ const {
     orders,
     addOrder,
     deleteOrder,
-    updateOrder
+    updateOrder,
+    oneOrder
 } = require("./routes/orders");
 const {
     goods,
     updateGood,
     deleteGood,
-    addGood
+    addGood,
+    oneGood
 } = require("./routes/products");
 const {
     tasks,
@@ -62,14 +64,16 @@ const {
     addNasiya,
     updateNasiya,
     deleteNasiya,
-    reportNasiya
+    reportNasiya,
+    oneNasiya
 } = require("./routes/nasiya");
 const {
     expenses,
     addExpense,
     updateExpense,
     deleteExpense,
-    reportExpenses
+    reportExpenses,
+    getIndividualExpense
 } = require("./routes/expenses");
 const {
     daromat,
@@ -82,13 +86,15 @@ const {
     xamkor,
     addXamkor,
     updateXamkor,
-    deleteXamkor
+    deleteXamkor,
+    oneXamkor
 } = require("./routes/xamkor");
 const {
     plans,
     addPlan,
     deletePlan,
-    updatePlan
+    updatePlan,
+    onePlan
 } = require("./routes/plans");
 
 
@@ -110,13 +116,18 @@ const storageForImg = SharpMulter({
     imageOptions: {
         fileFormat: "jpg",
         quality: 80,
-        resize: { width: 500, height: 500 },
+        resize: {
+            width: 500,
+            height: 500
+        },
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
     },
 });
-const upload = multer({ storage: storageForImg });
+const upload = multer({
+    storage: storageForImg
+});
 app.use(
     bodyParser.urlencoded({
         extended: true,
@@ -152,7 +163,7 @@ app.route('/customers')
     .put(updateCustomerRoute);
 
 app.get('/customer/:id', getSpecificCustomer)
-app.get('/customers/:type', getTypeOfCustomers)  ///// customertype
+app.get('/customers/:type', getTypeOfCustomers) ///// customertype
 
 // Handle Storage
 app.route('/storage')
@@ -177,6 +188,9 @@ app.route('/staff/:id')
 
 // Handle Orders
 
+app.route('/order/:id')
+    .get(oneOrder)
+
 app.route('/orders')
     .get(orders)
     .post(addOrder)
@@ -184,6 +198,9 @@ app.route('/orders')
     .put(updateOrder);
 
 // Handle Calculation
+
+app.route('/calculation/:id')
+    .get(oneGood);
 
 app.route('/calculation')
     .get(goods)
@@ -193,12 +210,18 @@ app.route('/calculation')
 
 // Handle xamkor
 
+app.route('/xamkor/:id')
+    .get(oneXamkor)
+
 app.route('/xamkor')
     .get(xamkor)
     .post(addXamkor)
     .delete(deleteXamkor)
     .put(updateXamkor);
 
+app.route('/plan/:id')
+    .get(onePlan);
+    
 app.route('/plans')
     .get(plans)
     .post(addPlan)
@@ -220,6 +243,9 @@ app.route('/sale')
 
 // Handle Nasiya
 
+app.route('/nasiya/:id')
+    .get(oneNasiya)
+
 app.route('/nasiya')
     .get(nasiya)
     .post(addNasiya)
@@ -233,6 +259,9 @@ app.route('/expenses')
     .post(addExpense)
     .delete(deleteExpense)
     .put(updateExpense);
+
+app.route('/expenses/:id')
+    .get(getIndividualExpense)
 
 app.route('/daromat')
     .get(daromat)

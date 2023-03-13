@@ -11,6 +11,12 @@ exports.plans = (_req, res) => {
     });
 };
 
+exports.onePlan = (req, res) => {
+    Plans.findOne({ _id: req.params.id }).then((result) => {
+        res.send(result);
+    });
+};
+
 exports.addPlan = (req, res) => {
     const newOrder = new Plans(req.body);
     newOrder.save((err, newOrderDoc) => {

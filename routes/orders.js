@@ -11,6 +11,12 @@ exports.orders = (req, res) => {
     });
 };
 
+exports.oneOrder = (req, res) => {
+    Orders.findOne({ _id: req.params.id }).then((result) => {
+        res.send(result);
+    });
+};
+
 exports.addOrder = (req, res) => {
     const serverDate = new Date();
     const modifiedDate = `${serverDate.getDate()}/${serverDate.getMonth() + 1}/${serverDate.getFullYear()}`;
