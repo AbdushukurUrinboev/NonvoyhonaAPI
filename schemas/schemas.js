@@ -34,7 +34,7 @@ const customersSchema = new Schema({
     address: String,
     history: [customersHistorySchema]
 });
-const storageSchema = new Schema({
+const storageSchema = new Schema({ // product
     productName: String,
     description: String,
     productPrice: Number,
@@ -66,6 +66,7 @@ const staffSchema = new Schema({
     typeOfWorker: String,
     adress: String,
     group: String,
+    birthday: String,
     smena: String,
     salary: Number,
     additionalSalary: { type: Number, default: 0 },

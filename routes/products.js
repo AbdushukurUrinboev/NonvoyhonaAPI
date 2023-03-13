@@ -1,5 +1,6 @@
 "use strict";
 const mongoose = require("mongoose");
+const fs = require("fs");
 // Schemas
 const { productsSchema } = require("./../schemas/schemas");
 // Model
