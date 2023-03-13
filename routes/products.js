@@ -12,6 +12,9 @@ exports.goods = (req, res) => {
 };
 exports.addGood = (req, res) => {
     console.log(req.body);
+    req.body.requiredItems = req.body.requiredItems.map((item) => {
+        return JSON.parse(item);
+    })
     const newProduct = new Products({ ...(req.body), productImage: req.file ? req.file.path : "none" });
     newProduct.save(function (err, doc) {
         if (err) {

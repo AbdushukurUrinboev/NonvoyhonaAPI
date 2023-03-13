@@ -1,5 +1,6 @@
 "use strict";
 const mongoose = require("mongoose");
+const { getDatesInRange } = require("./../custom/functions");
 // Schemas
 const { nasiyaSchema } = require("./../schemas/schemas");
 // Model
@@ -26,7 +27,27 @@ const getLastWeek = async () => {
         timeStamp: { $lte: CurrenttimeStamp, $gt: lastWeek }
     });
 }
+// NEEDS TESTING
+const reportWithGivenDate = async (startDate, endDate) => {
+    let newStartDate = new Date(startDate);
+    let newEndDate = new Date(endDate);
+    const data = await Expenses.find({});
 
+    let filteredByDate = data.filter((eachObj) => {
+        let [currDay, currMonth, currYear] = eachObj.split("/").map(Number);
+
+        const objectDate = `${currYear}-${currMonth}-${currDay}`
+        let foundDate = new Date(objectDate);
+        if (foundDate <= newEndDate && foundDate >= newStartDate) {
+            return true;
+        } else {
+            return false;
+        }
+    });
+
+    // Return the array of dates
+    return filteredByDate;
+}
 
 exports.reportNasiya = async (_req, res) => {
     const reportResults = await getLastWeek()
