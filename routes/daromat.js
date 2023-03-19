@@ -1,6 +1,7 @@
 "use strict";
 const mongoose = require("mongoose");
 // Schemas
+const { getDatesInRange } = require("./../custom/functions")
 const { daromatSchema } = require("./../schemas/schemas");
 // Model
 const Daromat = mongoose.model('daromat', daromatSchema);
@@ -51,8 +52,17 @@ const getLastWeek = async () => {
     });
 }
 exports.reportDaromat = async (req, res) => {
-    const lastWeekDT = await getLastWeek();
-    res.send(lastWeekDT);
+    const { startDate, endDate } = req.query; // dates '2022-02-01'
+    if (!startDate) {
+        const lastWeekDT = await getLastWeek();
+        res.send(lastWeekDT);
+    } else {
+        const daromatDT = await Daromat.find({})
+        const output = await getDatesInRange(startDate, endDate, daromatDT);
+        res.send(output);
+    }
+
+
 }
 
 const getProductLastWeek = async (product) => {

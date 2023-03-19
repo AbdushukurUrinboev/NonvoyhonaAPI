@@ -81,7 +81,7 @@ const reportWithGivenDate = async (startDate, endDate) => {
 
     const outcome = await Expenses.find({
         month: { $lte: endMonth, $gte: startMonth },
-        year: endYear
+        year: { $lte: endYear, $gte: startYear }
     });
     let testres = getDatesInRange(startDate, endDate, outcome);
     return testres

@@ -1,6 +1,6 @@
 "use strict";
 const mongoose = require("mongoose");
-const { getDatesInRange } = require("./../custom/functions");
+const { reportDataInRange } = require("./../custom/functions");
 // Schemas
 const { nasiyaSchema } = require("./../schemas/schemas");
 // Model
@@ -33,31 +33,17 @@ const getLastWeek = async () => {
         timeStamp: { $lte: CurrenttimeStamp, $gt: lastWeek }
     });
 }
-// NEEDS TESTING
-const reportWithGivenDate = async (startDate, endDate) => {
-    let newStartDate = new Date(startDate);
-    let newEndDate = new Date(endDate);
-    const data = await Expenses.find({});
 
-    let filteredByDate = data.filter((eachObj) => {
-        let [currDay, currMonth, currYear] = eachObj.split("/").map(Number);
+exports.reportNasiya = async (req, res) => {
 
-        const objectDate = `${currYear}-${currMonth}-${currDay}`
-        let foundDate = new Date(objectDate);
-        if (foundDate <= newEndDate && foundDate >= newStartDate) {
-            return true;
-        } else {
-            return false;
-        }
-    });
-
-    // Return the array of dates
-    return filteredByDate;
-}
-
-exports.reportNasiya = async (_req, res) => {
-    const reportResults = await getLastWeek()
-    res.send(reportResults);
+    const { startDate, endDate } = req.query; // dates '2022-02-01'
+    if (!startDate) {
+        const reportResults = await getLastWeek()
+        res.send(reportResults);
+    } else {
+        const output = await reportDataInRange(startDate, endDate, Nasiya);
+        res.send(output);
+    }
 }
 
 
