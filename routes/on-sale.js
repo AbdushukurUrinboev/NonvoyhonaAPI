@@ -6,6 +6,7 @@ const { onSailSchema } = require("../schemas/schemas");
 const { addNasiyaManually } = require("./nasiya");
 const { addFromSale } = require("./daromat")
 // Model
+const Products = mongoose.model('products');
 const OnSail = mongoose.model('onSail', onSailSchema);
 const Customers = mongoose.model('customers');
 
@@ -17,7 +18,8 @@ exports.onSail = (_req, res) => {
 exports.addSail = async (breadsArr) => {
 
     for (let i = 0; i < breadsArr.length; i++) {
-        const newV = { breadName: breadsArr[i].breadName, quantity: parseFloat(breadsArr[i].quantity) - parseFloat(breadsArr[i].jastaQuantity) }
+        const foundBread = await Products.findOne({ productName: breadsArr[i].breadName });
+        const newV = { breadName: breadsArr[i].breadName, quantity: parseFloat(breadsArr[i].quantity) - parseFloat(breadsArr[i].jastaQuantity), imageUrl: foundBread.productImage }
         const adventure = await OnSail.findOne({ breadName: breadsArr[i].breadName });
         if (!adventure || adventure === "null") {
             const newProduct = new OnSail(newV);

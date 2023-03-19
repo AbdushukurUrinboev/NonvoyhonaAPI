@@ -169,7 +169,8 @@ const xamkorSchema = new Schema({
 });
 const onSailSchema = new Schema({
     breadName: String,
-    quantity: Number
+    quantity: Number,
+    imageUrl: String
 });
 const plansSchema = new Schema({
     plan: String,
