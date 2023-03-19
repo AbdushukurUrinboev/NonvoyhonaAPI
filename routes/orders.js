@@ -1,6 +1,8 @@
 "use strict";
 const mongoose = require("mongoose");
 // Schemas
+
+const { addNasiyaManually } = require("./nasiya");
 const { ordersSchema } = require("./../schemas/schemas");
 // Model
 const Orders = mongoose.model('orders', ordersSchema);
@@ -22,6 +24,9 @@ exports.addOrder = (req, res) => {
     const modifiedDate = `${serverDate.getDate()}/${serverDate.getMonth() + 1}/${serverDate.getFullYear()}`;
     const exactTime = `${serverDate.getHours()}:${serverDate.getMinutes()}`;
     const newOrder = new Orders({ ...(req.body), date: modifiedDate, time: exactTime });
+    if (req.body.avans < req.body.price) {
+        addNasiyaManually({ product: req.body.order, customer: req.body.customer, productQuantity: req.body.productQuantity, date: modifiedDate, overall: req.body.price, avans: req.body.avans })
+    }
     newOrder.save(async (err, newOrderDoc) => {
         if (err) {
             res.send(err);
@@ -30,6 +35,7 @@ exports.addOrder = (req, res) => {
         };
         // saved!
     });
+
 };
 
 exports.deleteOrderFromSale = async (id) => {

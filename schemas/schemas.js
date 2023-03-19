@@ -80,6 +80,7 @@ const ordersSchema = new Schema({
     productQuantity: Number,
     date: String,
     deadline: String,
+    deadlineTime: String,
     time: String,
     phone: String,
     avans: Number,
