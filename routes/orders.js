@@ -5,12 +5,21 @@ const mongoose = require("mongoose");
 const { addNasiyaManually } = require("./nasiya");
 const { ordersSchema } = require("./../schemas/schemas");
 // Model
+const { reportDataInRange } = require("./../custom/functions");
 const Orders = mongoose.model('orders', ordersSchema);
 
-exports.orders = (req, res) => {
-    Orders.find({}).then((result) => {
-        res.send(result);
-    });
+exports.orders = async (req, res) => {
+    const { startDate, endDate } = req.query; // dates '2022-02-01'
+    if (!startDate) {
+        Orders.find({}).then((result) => {
+            res.send(result);
+        });
+    } else {
+        const output = await reportDataInRange(startDate, endDate, Orders);
+        res.send(output);
+    }
+
+
 };
 
 exports.oneOrder = (req, res) => {
