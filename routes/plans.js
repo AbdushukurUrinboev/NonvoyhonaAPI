@@ -1,14 +1,22 @@
 "use strict";
 const mongoose = require("mongoose");
 // Schemas
+const { reportDataInRange } = require("./../custom/functions");
 const { plansSchema } = require("./../schemas/schemas");
 // Model
 const Plans = mongoose.model('plans', plansSchema);
 
-exports.plans = (_req, res) => {
-    Plans.find({}).then((result) => {
-        res.send(result);
-    });
+exports.plans = async (req, res) => {
+    const { startDate, endDate } = req.query; // dates '2022-02-01'
+    if (!startDate) {
+        Plans.find({}).then((result) => {
+            res.send(result);
+        });
+    } else {
+        const output = await reportDataInRange(startDate, endDate, Plans);
+        res.send(output);
+    }
+
 };
 
 exports.onePlan = (req, res) => {
@@ -18,7 +26,9 @@ exports.onePlan = (req, res) => {
 };
 
 exports.addPlan = (req, res) => {
-    const newOrder = new Plans(req.body);
+    const serverDate = new Date();
+    const modifiedDate = `${serverDate.getDate()}/${serverDate.getMonth() + 1}/${serverDate.getFullYear()}`;
+    const newOrder = new Plans({ ...req.body, date: modifiedDate });
     newOrder.save((err, newOrderDoc) => {
         if (err) {
             res.send(err);

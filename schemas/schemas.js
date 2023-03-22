@@ -177,6 +177,7 @@ const plansSchema = new Schema({
     plan: String,
     deadline: String,
     person: String,
+    date: String,
     status: String
 });
 
