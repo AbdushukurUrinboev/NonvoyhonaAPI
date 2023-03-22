@@ -28,11 +28,15 @@ exports.addTask = (req, res) => {
         let output = await addSail(breadsArr);
         // add to staff history
         let { group, smena, bonusTulov, tulov, xodim, jamiTulov, ...rest } = req.body;
-        let staffHistory = await updateStaffHistory(xodim, rest, jamiTulov);
+        const perStaffIncome = jamiTulov / xodim.length;
+        for (let i = 0; i < xodim.length; i++) {
+            await updateStaffHistory(xodim[i], rest, perStaffIncome);
+        }
+
         // add to expenses section
         await addFromDailyTasks(currProduct.productName, currProduct.allExpensesPerBag, req.body.qoplarSoni, req.body.nonSoni, modifiedDate, currTimeStamp);
 
-        res.send({ status: 200, msg: { addSail: output, history: staffHistory } })
+        res.send({ status: 200, msg: { addSail: output } })
     });
 
 };

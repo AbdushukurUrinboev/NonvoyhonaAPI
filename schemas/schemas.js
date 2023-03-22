@@ -136,7 +136,7 @@ const productsSchema = new Schema({
 const dailyTasksSchema = new Schema({
     group: String,
     smena: String,
-    xodim: String,
+    xodim: [String],
     qoplarSoni: Number,
     nonTuri: String,
     nonSoni: Number,
