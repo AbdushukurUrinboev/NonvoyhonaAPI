@@ -22,7 +22,11 @@ exports.addTask = (req, res) => {
     Products.findOne({ productName: nonType }, async (_err, currProduct) => {
         for (let i = 0; i < currProduct.requiredItems.length; i++) {
             const obj = currProduct.requiredItems[i]
-            await subtractFromStorage(obj, req.body.qoplarSoni)
+            const sebstractResponse = await subtractFromStorage(obj, req.body.qoplarSoni);
+            if (sebstractResponse.status === 400) {
+                res.send(sebstractResponse);
+                return
+            }
         }
         // sends to sail
         let output = await addSail(breadsArr);
