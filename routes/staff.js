@@ -13,15 +13,15 @@ exports.staff = (_req, res) => {
     });
 };
 
-exports.updateStaffHistory = async (nameOfTheEmployee, addingObj, tulov) => {
+exports.updateStaffHistory = async (nameOfTheEmployee, addingObj, tulov, date) => {
     // given name must be spaced between firstName and lastName
     const foundEmployee = await Staff.findOne({ firstName: nameOfTheEmployee.split(" ")[0], lastName: nameOfTheEmployee.split(" ")[1] });
     if (foundEmployee.workHistory.length >= 30) {
         const newArr = [...(foundEmployee.workHistory)];
         newArr.shift();
-        foundEmployee.workHistory = [...(newArr), { ...addingObj, tulov }];
+        foundEmployee.workHistory = [...(newArr), { ...addingObj, tulov, date }];
     } else {
-        foundEmployee.workHistory = [...(foundEmployee.workHistory), { ...addingObj, tulov }];
+        foundEmployee.workHistory = [...(foundEmployee.workHistory), { ...addingObj, tulov, date }];
     }
     foundEmployee.additionalSalary += tulov;
     return await foundEmployee.save();

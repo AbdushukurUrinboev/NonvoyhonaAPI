@@ -49,6 +49,7 @@ const storageSchema = new Schema({ // product
 
 const workHistorySchema = new Schema({
     qoplarSoni: Number,
+    date: String,
     qoplarSoni: Number,
     nonTuri: String,
     nonSoni: Number,

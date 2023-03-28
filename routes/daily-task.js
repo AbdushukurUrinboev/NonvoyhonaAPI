@@ -34,7 +34,7 @@ exports.addTask = (req, res) => {
         let { group, smena, bonusTulov, tulov, xodim, jamiTulov, ...rest } = req.body;
         const perStaffIncome = jamiTulov / xodim.length;
         for (let i = 0; i < xodim.length; i++) {
-            await updateStaffHistory(xodim[i], rest, perStaffIncome);
+            await updateStaffHistory(xodim[i], rest, perStaffIncome, modifiedDate);
         }
 
         // add to expenses section
