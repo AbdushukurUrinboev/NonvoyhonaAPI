@@ -43,7 +43,7 @@ exports.addProduct = async (req, res) => {
 };
 exports.subtractFromStorage = async (obj, qop) => {
     const result = await Storage.findOne({ productName: obj.itemName });
-    if (result.poductQuantity - (obj.itemQuantity * qop) < 0 || result) {
+    if (result || result.poductQuantity - (obj.itemQuantity * qop) < 0) {
         return { status: 400, msg: "Yetarli maxsulot yo'q" }
     } else if (result.poductQuantity - (obj.itemQuantity * qop) === 0) {
         if (result.storageImage != "none") {
