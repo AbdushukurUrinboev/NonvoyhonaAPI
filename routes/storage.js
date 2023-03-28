@@ -46,13 +46,6 @@ exports.subtractFromStorage = async (obj, qop) => {
     if (result) {
         if (result.poductQuantity - (obj.itemQuantity * qop) < 0) {
             return { status: 400, msg: "Yetarli maxsulot yo'q" }
-        } else if (result.poductQuantity - (obj.itemQuantity * qop) === 0) {
-            if (result.storageImage != "none") {
-                console.log(result.storageImage)
-                fs.unlink(result.storageImage, (err) => err);
-            }
-            const removed = await result.remove();
-            return { status: 200, dt: removed }
         } else {
             result.poductQuantity -= (obj.itemQuantity * qop);
             const updated = await result.save();
