@@ -68,16 +68,15 @@ exports.deleteProduct = async (req, res) => {
     res.send(result);
 
 }
-exports.updateProduct = (req, res) => {
-    console.log(req.body);
+exports.updateProduct = async (req, res) => {
+    const filter = { _id: req.body.changingID }
     if (req.file) {
-        Storage.findOneAndUpdate({ _id: req.body.changingID }, { ...(req.body), storageImage: req.file.path }, {
-            new: true
-        }).then((doc) => {
-            res.send(doc);
-        });
+        const doc = await Storage.findOneAndUpdate(filter, { ...(req.body), storageImage: req.file.path });
+        fs.unlink(doc.storageImage, (err) => err);
+        const resp = await Storage.findOne(filter)
+        res.send(resp);
     } else {
-        Storage.findOneAndUpdate({ _id: req.body.changingID }, req.body, {
+        Storage.findOneAndUpdate(filter, req.body, {
             new: true
         }).then((doc) => {
             res.send(doc);

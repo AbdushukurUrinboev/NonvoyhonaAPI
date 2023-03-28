@@ -170,7 +170,7 @@ app.route('/storage')
     .get(storage)
     .post(upload.single('storageImage'), addProduct)
     .delete(deleteProduct)
-    .put(upload.single('storageImage'), updateProduct);
+    .put(upload.single('storageImage'), updateProduct);  // update with image must be added to all 
 
 
 app.get('/storage/:id', getSpecificStorage);
@@ -180,7 +180,7 @@ app.route('/staff')
     .get(staff)
     .post(upload.single('image'), addNewStaff)
     .delete(deleteStaff)
-    .put(updateStaff);
+    .put(upload.single('image'), updateStaff);
 
 app.route('/staff/:id')
     .get(specificStaff)
@@ -206,7 +206,7 @@ app.route('/calculation')
     .get(goods)
     .post(upload.single('productImage'), addGood)
     .delete(deleteGood)
-    .put(updateGood);
+    .put(upload.single('productImage'), updateGood);
 
 // Handle xamkor
 
@@ -221,7 +221,7 @@ app.route('/xamkor')
 
 app.route('/plan/:id')
     .get(onePlan);
-    
+
 app.route('/plans')
     .get(plans)
     .post(addPlan)

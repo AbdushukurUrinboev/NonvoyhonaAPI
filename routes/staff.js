@@ -69,10 +69,19 @@ exports.deleteStaff = async (req, res) => {
     res.send(result);
 
 }
-exports.updateStaff = (req, res) => {
-    Staff.findOneAndUpdate({ _id: req.body.id }, req.body.new, {
-        new: true
-    }).then((doc) => {
-        res.send(doc);
-    });
+
+exports.updateStaff = async (req, res) => {
+    const filter = { _id: req.body.changingID }
+    if (req.file) {
+        const doc = await Staff.findOneAndUpdate(filter, { ...(req.body), image: req.file.path });
+        fs.unlink(doc.image, (err) => err);
+        const resp = await Staff.findOne(filter)
+        res.send(resp);
+    } else {
+        Staff.findOneAndUpdate(filter, req.body, {
+            new: true
+        }).then((doc) => {
+            res.send(doc);
+        });
+    }
 }

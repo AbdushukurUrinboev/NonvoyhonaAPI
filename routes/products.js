@@ -46,10 +46,18 @@ exports.deleteGood = async (req, res) => {
 
 }
 
-exports.updateGood = (req, res) => {
-    Products.findOneAndUpdate({ _id: req.body.id }, req.body.new, {
-        new: true
-    }).then((doc) => {
-        res.send(doc);
-    });
+exports.updateGood = async (req, res) => {
+    const filter = { _id: req.body.changingID }
+    if (req.file) {
+        const doc = await Products.findOneAndUpdate(filter, { ...(req.body), productImage: req.file.path });
+        fs.unlink(doc.productImage, (err) => err);
+        const resp = await Products.findOne(filter)
+        res.send(resp);
+    } else {
+        Products.findOneAndUpdate(filter, req.body, {
+            new: true
+        }).then((doc) => {
+            res.send(doc);
+        });
+    }
 }
