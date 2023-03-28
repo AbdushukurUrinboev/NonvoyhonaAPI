@@ -43,21 +43,26 @@ exports.addProduct = async (req, res) => {
 };
 exports.subtractFromStorage = async (obj, qop) => {
     const result = await Storage.findOne({ productName: obj.itemName });
-    if (result || result.poductQuantity - (obj.itemQuantity * qop) < 0) {
-        return { status: 400, msg: "Yetarli maxsulot yo'q" }
-    } else if (result.poductQuantity - (obj.itemQuantity * qop) === 0) {
-        if (result.storageImage != "none") {
-            console.log(result.storageImage)
-            fs.unlink(result.storageImage, (err) => err);
-        }
-        const removed = await result.remove();
-        return { status: 200, dt: removed }
-    } else {
-        result.poductQuantity -= (obj.itemQuantity * qop);
-        const updated = await result.save();
-        return { status: 200, dt: updated }
+    if (result) {
+        if (result.poductQuantity - (obj.itemQuantity * qop) < 0) {
+            return { status: 400, msg: "Yetarli maxsulot yo'q" }
+        } else if (result.poductQuantity - (obj.itemQuantity * qop) === 0) {
+            if (result.storageImage != "none") {
+                console.log(result.storageImage)
+                fs.unlink(result.storageImage, (err) => err);
+            }
+            const removed = await result.remove();
+            return { status: 200, dt: removed }
+        } else {
+            result.poductQuantity -= (obj.itemQuantity * qop);
+            const updated = await result.save();
+            return { status: 200, dt: updated }
 
+        }
+    } else {
+        return { status: 400, msg: "Yetarli maxsulot yo'q" }
     }
+
 
 }
 
