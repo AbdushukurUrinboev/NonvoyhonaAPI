@@ -70,9 +70,17 @@ exports.deleteProduct = async (req, res) => {
 }
 exports.updateProduct = (req, res) => {
     console.log(req.body);
-    Storage.findOneAndUpdate({ _id: req.body.changingID }, req.body, {
-        new: true
-    }).then((doc) => {
-        res.send(doc);
-    });
+    if (req.file) {
+        Storage.findOneAndUpdate({ _id: req.body.changingID }, { ...(req.body), storageImage: req.file }, {
+            new: true
+        }).then((doc) => {
+            res.send(doc);
+        });
+    } else {
+        Storage.findOneAndUpdate({ _id: req.body.changingID }, req.body, {
+            new: true
+        }).then((doc) => {
+            res.send(doc);
+        });
+    }
 }
